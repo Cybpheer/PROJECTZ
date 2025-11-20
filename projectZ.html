@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 12 Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0d1b2a 0%, #1a2332 50%, #0a0e1a 100%);
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .desktop {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .main-area {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Desktop Icons */
+        .desktop-icons {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-top: 20px;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .desktop-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .icon-image {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .icon-label {
+            font-size: 12px;
+            word-wrap: break-word;
+            width: 100%;
+            line-height: 1.2;
+        }
+
+        /* Windows */
+        .window {
+            position: absolute;
+            background: rgba(20, 20, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            min-width: 400px;
+            min-height: 300px;
+            max-width: 800px;
+            max-height: 600px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            animation: slideWindowIn 0.3s ease-out forwards;
+        }
+
+        @keyframes slideWindowIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .window.hidden {
+            display: none;
+        }
+
+        .window-header {
+            background: linear-gradient(135deg, rgba(0, 164, 239, 0.2), rgba(16, 132, 215, 0.1));
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: move;
+            user-select: none;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .window-title {
+            font-size: 14px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-btn {
+            width: 28px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+
+        .window-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .window-btn.close:hover {
+            background: rgba(255, 107, 107, 0.3);
+        }
+
+        .window-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .window-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .window-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .window-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        /* Copilot Panel */
+        .copilot-panel {
+            width: 350px;
+            background: rgba(20, 20, 30, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .copilot-header {
+            background: linear-gradient(135deg, rgba(0, 164, 239, 0.3), rgba(16, 132, 215, 0.2));
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .copilot-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00a4ef, #0078d4);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .copilot-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .copilot-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .copilot-message {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #b0b0b0;
+        }
+
+        .copilot-input {
+            padding: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 8px;
+        }
+
+        .copilot-input input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #fff;
+            font-size: 12px;
+            font-family: inherit;
+        }
+
+        .copilot-input input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .copilot-input input:focus {
+            outline: none;
+            border-color: #00a4ef;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .copilot-send {
+            background: #00a4ef;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .copilot-send:hover {
+            background: #0085bf;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            height: 60px;
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            padding: 0 20px;
+        }
+
+        .taskbar-start {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .start-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 164, 239, 0.2);
+            border: 1px solid rgba(0, 164, 239, 0.3);
+            border-radius: 8px;
+            color: #00a4ef;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .start-btn:hover {
+            background: rgba(0, 164, 239, 0.3);
+            border-color: rgba(0, 164, 239, 0.5);
+        }
+
+        .taskbar-app {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .taskbar-app:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .taskbar-system {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .system-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .system-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .clock-display {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .time {
+            font-size: 12px;
+        }
+
+        .date {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Content Styles */
+        .content h2 {
+            color: #00a4ef;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .content h3 {
+            color: #7ab3f0;
+            margin-top: 12px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .content p {
+            color: #b0b0b0;
+            line-height: 1.5;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 2px solid #00a4ef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #61dafb;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 8px 0;
+        }
+
+        .content ul {
+            margin-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .content li {
+            color: #b0b0b0;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+
+        /* Browser Styles */
+        .browser-window {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .browser-header {
+            display: flex;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .browser-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .browser-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .address-bar {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 6px 12px;
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .browser-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .browser-page {
+            display: none;
+        }
+
+        .browser-page.active {
+            display: block;
+        }
+
+        .browser-page h1 {
+            color: #00a4ef;
+            margin-bottom: 12px;
+        }
+
+        .browser-page p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        /* AI Chat Styles */
+        .ai-chat {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chat-message {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .chat-message.user {
+            background: rgba(0, 164, 239, 0.3);
+            align-self: flex-end;
+            max-width: 80%;
+            border: 1px solid rgba(0, 164, 239, 0.5);
+        }
+
+        .chat-message.ai {
+            background: rgba(100, 200, 255, 0.15);
+            align-self: flex-start;
+            max-width: 80%;
+            border: 1px solid rgba(100, 200, 255, 0.3);
+        }
+
+        .chat-input-area {
+            padding: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 6px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 8px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .chat-input-area input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .chat-input-area button {
+            background: #00a4ef;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .chat-input-area button:hover {
+            background: #0085bf;
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop">
+        <div class="main-area">
+            <!-- Desktop Icons -->
+            <div class="desktop-icons">
+                <div class="desktop-icon" ondblclick="openWindow('html-lesson')">
+                    <div class="icon-image">🏷️</div>
+                    <div class="icon-label">HTML Lesson</div>
+                </div>
+                <div class="desktop-icon" ondblclick="openWindow('css-lesson')">
+                    <div class="icon-image">🎨</div>
+                    <div class="icon-label">CSS Lesson</div>
+                </div>
+                <div class="desktop-icon" ondblclick="openWindow('about')">
+                    <div class="icon-image">ℹ️</div>
+                    <div class="icon-label">About</div>
+                </div>
+                <div class="desktop-icon" ondblclick="openWindow('editor')">
+                    <div class="icon-image">📝</div>
+                    <div class="icon-label">Notes</div>
+                </div>
+                <div class="desktop-icon" ondblclick="openWindow('browser')">
+                    <div class="icon-image">🌐</div>
+                    <div class="icon-label">Microsoft Edge</div>
+                </div>
+                <div class="desktop-icon" ondblclick="openWindow('ai')">
+                    <div class="icon-image">✨</div>
+                    <div class="icon-label">AI Assistant</div>
+                </div>
+                <div class="desktop-icon" ondblclick="openWindow('vscode')">
+                    <div class="icon-image">⚙️</div>
+                    <div class="icon-label">VS Code</div>
+                </div>
+            </div>
+
+            <!-- Floating Windows Container -->
+            <div id="windows-container"></div>
+
+            <!-- Copilot Panel -->
+            <div class="copilot-panel">
+                <div class="copilot-header">
+                    <div class="copilot-icon">✨</div>
+                    <div class="copilot-title">Windows 12 Copilot</div>
+                </div>
+                <div class="copilot-body">
+                    <div class="copilot-message">Welcome! Double-click on desktop icons to open windows.</div>
+                    <div class="copilot-message">You can drag windows to move them around, and click X to close them.</div>
+                    <div class="copilot-message">Click on the taskbar icons to access quick features.</div>
+                </div>
+                <div class="copilot-input">
+                    <input type="text" id="copilot-input" placeholder="Start a conversation...">
+                    <button class="copilot-send" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <button class="start-btn" title="Start" style="font-size: 16px; font-weight: bold;" onclick="openStartMenu()">❖</button>
+            <button class="taskbar-app" title="HTML" onclick="openWindow('html-lesson')">🏷️</button>
+            <button class="taskbar-app" title="CSS" onclick="openWindow('css-lesson')">🎨</button>
+            <button class="taskbar-app" title="Notes" onclick="openWindow('editor')">📝</button>
+            <button class="taskbar-app" title="Browser" onclick="openWindow('browser')">🌐</button>
+            <button class="taskbar-app" title="VS Code" onclick="openWindow('vscode')">⚙️</button>
+            <button class="taskbar-app" title="AI Assistant" onclick="openWindow('ai')">✨</button>
+            <div style="width: 1px; height: 30px; background: rgba(255, 255, 255, 0.1);"></div>
+            <button class="system-icon" title="Volume">🔊</button>
+            <button class="system-icon" title="Network">📡</button>
+            <button class="system-icon" title="Power">🔋</button>
+            <div class="clock-display">
+                <div class="time" id="time">22:48:04</div>
+                <div class="date" id="date">2025/11/19</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let draggedWindow = null;
+        let offset = { x: 0, y: 0 };
+        let windowCounter = 0;
+
+        // Window definitions
+        const windows = {
+            'html-lesson': {
+                title: 'HTML Basics',
+                icon: '🏷️',
+                content: `
+                    <h2>🏷️ HTML Basics</h2>
+                    <p>HTML (HyperText Markup Language) is the standard markup language for creating web pages.</p>
+                    
+                    <h3>Basic Structure:</h3>
+                    <div class="code-block">&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>&lt;title&gt;Page Title&lt;/title&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>&lt;h1&gt;Hello World&lt;/h1&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</div>
+
+                    <h3>Common HTML Tags:</h3>
+                    <ul>
+                        <li><code>&lt;h1&gt;-&lt;h6&gt;</code> - Headings</li>
+                        <li><code>&lt;p&gt;</code> - Paragraph</li>
+                        <li><code>&lt;a&gt;</code> - Hyperlink</li>
+                        <li><code>&lt;img&gt;</code> - Image</li>
+                        <li><code>&lt;div&gt;</code> - Container</li>
+                        <li><code>&lt;span&gt;</code> - Inline container</li>
+                        <li><code>&lt;ul&gt;</code> - Unordered list</li>
+                        <li><code>&lt;table&gt;</code> - Data table</li>
+                    </ul>
+
+                    <h3>Semantic Tags:</h3>
+                    <ul>
+                        <li><code>&lt;header&gt;</code> - Header section</li>
+                        <li><code>&lt;nav&gt;</code> - Navigation</li>
+                        <li><code>&lt;article&gt;</code> - Article content</li>
+                        <li><code>&lt;section&gt;</code> - Section block</li>
+                        <li><code>&lt;footer&gt;</code> - Footer section</li>
+                    </ul>
+                `
+            },
+            'css-lesson': {
+                title: 'CSS Styling',
+                icon: '🎨',
+                content: `
+                    <h2>🎨 CSS Styling</h2>
+                    <p>CSS (Cascading Style Sheets) is used to style HTML elements and control the layout.</p>
+
+                    <h3>CSS Selectors:</h3>
+                    <div class="code-block">/* Element Selector */<br>p { color: blue; }<br><br>/* Class Selector */<br>.highlight { background: yellow; }<br><br>/* ID Selector */<br>#main { font-size: 20px; }</div>
+
+                    <h3>Common CSS Properties:</h3>
+                    <ul>
+                        <li><code>color</code> - Text color</li>
+                        <li><code>background</code> - Background color</li>
+                        <li><code>margin</code> - Outer spacing</li>
+                        <li><code>padding</code> - Inner spacing</li>
+                        <li><code>border</code> - Border styling</li>
+                        <li><code>font-size</code> - Text size</li>
+                        <li><code>display</code> - Display type</li>
+                        <li><code>position</code> - Position type</li>
+                    </ul>
+
+                    <h3>Pseudo-Classes:</h3>
+                    <div class="code-block">a:hover { color: red; }<br>button:active { transform: scale(0.95); }<br>input:focus { border-color: blue; }</div>
+
+                    <h3>Flexbox & Grid:</h3>
+                    <ul>
+                        <li><code>display: flex</code> - Flexible layout</li>
+                        <li><code>display: grid</code> - Grid layout</li>
+                        <li><code>justify-content</code> - Align main axis</li>
+                        <li><code>align-items</code> - Align cross axis</li>
+                    </ul>
+                `
+            },
+            'editor': {
+                title: 'Notes',
+                icon: '📝',
+                content: `
+                    <h2>📝 Notes</h2>
+                    <textarea id="notes-area" style="width: 100%; height: 300px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; color: #fff; padding: 10px; font-family: monospace; resize: none;" placeholder="Take your notes here..."></textarea>
+                `
+            },
+            'about': {
+                title: 'About',
+                icon: 'ℹ️',
+                content: `
+                    <h2>ℹ️ About Windows 12 Learning</h2>
+                    <p>Welcome to Windows 12 Learning Platform!</p>
+                    
+                    <h3>Features:</h3>
+                    <ul>
+                        <li>Movable floating windows</li>
+                        <li>Interactive lessons on HTML & CSS</li>
+                        <li>Notes application</li>
+                        <li>Windows 12-inspired UI</li>
+                        <li>Live clock and taskbar</li>
+                    </ul>
+
+                    <h3>How to Use:</h3>
+                    <ul>
+                        <li>Double-click desktop icons to open windows</li>
+                        <li>Drag the window title bar to move</li>
+                        <li>Click X button to close</li>
+                        <li>Use taskbar for quick access</li>
+                    </ul>
+
+                    <p style="margin-top: 16px;">Built with HTML, CSS, and JavaScript</p>
+                `
+            },
+            'vscode': {
+                title: 'VS Code',
+                icon: '⚙️',
+                content: `
+                    <div style="display: flex; height: 100%; flex-direction: column; gap: 12px;">
+                        <div style="display: flex; gap: 12px; flex: 1; min-height: 0;">
+                            <div style="flex: 1; background: rgba(0, 0, 0, 0.3); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px; overflow-y: auto;">
+                                <h3 style="margin-bottom: 10px;">📄 Sample Code</h3>
+                                <div class="code-block" style="border-left: 3px solid #569cd6;">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Page&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial;
+            background: #f0f0f0;
+        }
+        .container {
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;h1&gt;Hello World!&lt;/h1&gt;
+        &lt;p&gt;This is a sample page.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                                </div>
+                            </div>
+                            <div style="flex: 1; background: rgba(0, 0, 0, 0.2); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px; overflow-y: auto;">
+                                <h3 style="margin-bottom: 10px;">👁️ Result</h3>
+                                <div style="background: white; color: #333; padding: 12px; border-radius: 6px; font-family: Arial;">
+                                    <h1 style="color: #333; font-size: 24px; margin: 0 0 10px 0;">Hello World!</h1>
+                                    <p style="color: #666; margin: 0;">This is a sample page.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(0, 0, 0, 0.3); border-radius: 6px; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                            <p style="font-size: 12px; color: #b0b0b0; margin: 0;">💡 Tip: Edit the HTML code on the left to see the result update in real-time. This is a basic editor demonstration.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'browser': {
+                title: 'Microsoft Edge',
+                icon: '🌐',
+                content: `
+                    <div class="browser-window">
+                        <div class="browser-header">
+                            <button class="browser-btn">←</button>
+                            <button class="browser-btn">→</button>
+                            <button class="browser-btn">↻</button>
+                            <div class="address-bar">https://www.example.com</div>
+                            <button class="browser-btn">☆</button>
+                        </div>
+                        <div class="browser-content">
+                            <div class="browser-page active">
+                                <h1>Welcome to Microsoft Edge</h1>
+                                <p>This is a mock browser interface showing how your web pages would appear. You can navigate between different websites and view their content here.</p>
+                                <h2 style="color: #00a4ef; margin-top: 16px;">Popular Sites</h2>
+                                <ul style="margin-left: 20px;">
+                                    <li>Google - www.google.com</li>
+                                    <li>Wikipedia - www.wikipedia.org</li>
+                                    <li>GitHub - www.github.com</li>
+                                    <li>Stack Overflow - www.stackoverflow.com</li>
+                                </ul>
+                                <p style="margin-top: 16px; font-size: 12px; color: #888;">This is a simulated browser for educational purposes.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'ai': {
+                title: 'AI Assistant',
+                icon: '✨',
+                content: `
+                    <div class="ai-chat">
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="chat-message ai">👋 Hello! I'm your AI Assistant. How can I help you learn today? Feel free to ask me anything about HTML, CSS, or web development.</div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="ai-input" placeholder="Ask me something..." onkeypress="handleAIInput(event)">
+                            <button onclick="sendAIMessage()">Send</button>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function openWindow(id) {
+            const windowData = windows[id];
+            if (!windowData) return;
+
+            const container = document.getElementById('windows-container');
+            const windowEl = document.createElement('div');
+            const uniqueId = `window-${id}-${windowCounter++}`;
+            
+            windowEl.className = 'window';
+            windowEl.id = uniqueId;
+            windowEl.style.left = (100 + Math.random() * 200) + 'px';
+            windowEl.style.top = (80 + Math.random() * 150) + 'px';
+
+            windowEl.innerHTML = `
+                <div class="window-header" onmousedown="startDrag(event, '${uniqueId}')">
+                    <div class="window-title">${windowData.icon} ${windowData.title}</div>
+                    <div class="window-controls">
+                        <button class="window-btn" onclick="minimizeWindow('${uniqueId}')">_</button>
+                        <button class="window-btn close" onclick="closeWindow('${uniqueId}')">✕</button>
+                    </div>
+                </div>
+                <div class="window-content content">
+                    ${windowData.content}
+                </div>
+            `;
+
+            container.appendChild(windowEl);
+        }
+
+        function closeWindow(id) {
+            const windowEl = document.getElementById(id);
+            if (windowEl) {
+                windowEl.style.animation = 'slideWindowIn 0.3s ease-out reverse forwards';
+                setTimeout(() => windowEl.remove(), 300);
+            }
+        }
+
+        function minimizeWindow(id) {
+            const windowEl = document.getElementById(id);
+            if (windowEl) {
+                windowEl.classList.toggle('hidden');
+            }
+        }
+
+        function startDrag(event, windowId) {
+            const windowEl = document.getElementById(windowId);
+            draggedWindow = windowEl;
+            
+            const rect = windowEl.getBoundingClientRect();
+            offset.x = event.clientX - rect.left;
+            offset.y = event.clientY - rect.top;
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+        }
+
+        function drag(event) {
+            if (!draggedWindow) return;
+
+            const mainArea = document.querySelector('.main-area');
+            const rect = mainArea.getBoundingClientRect();
+
+            let x = event.clientX - rect.left - offset.x;
+            let y = event.clientY - rect.top - offset.y;
+
+            x = Math.max(0, Math.min(x, rect.width - draggedWindow.offsetWidth));
+            y = Math.max(0, Math.min(y, rect.height - draggedWindow.offsetHeight));
+
+            draggedWindow.style.left = x + 'px';
+            draggedWindow.style.top = y + 'px';
+        }
+
+        function stopDrag() {
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            draggedWindow = null;
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('date').textContent = `${year}/${month}/${day}`;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('copilot-input');
+            const message = input.value.trim();
+            if (message) {
+                alert('Message sent: ' + message);
+                input.value = '';
+            }
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('ai-input');
+            const message = input.value.trim();
+            if (message) {
+                const messagesContainer = document.getElementById('chat-messages');
+                
+                // Add user message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'chat-message user';
+                userMsg.textContent = message;
+                messagesContainer.appendChild(userMsg);
+                
+                // Add AI response
+                const responses = [
+                    '🤖 That\'s a great question! Let me explain...',
+                    '✨ Interesting! Here\'s what I know about that...',
+                    '💡 Good point! This is related to web development...',
+                    '🎯 That\'s important for learning. Let me help you understand...',
+                    '📚 Great question! This concept is fundamental to...'
+                ];
+                
+                setTimeout(() => {
+                    const aiMsg = document.createElement('div');
+                    aiMsg.className = 'chat-message ai';
+                    aiMsg.textContent = responses[Math.floor(Math.random() * responses.length)] + ' For more detailed explanations, check out the lessons on the desktop!';
+                    messagesContainer.appendChild(aiMsg);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 500);
+                
+                input.value = '';
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+
+        function handleAIInput(event) {
+            if (event.key === 'Enter') {
+                sendAIMessage();
+            }
+        }
+
+        function openStartMenu() {
+            alert('🪟 Start Menu - Click on the apps in the taskbar or desktop to get started!');
+        }
+
+        document.getElementById('copilot-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
