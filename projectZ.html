@@ -298,6 +298,14 @@
             padding: 0 20px;
         }
 
+        .start-menu-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(calc(-50% + 0));
+            z-index: 998;
+        }
+
         .taskbar-start {
             display: flex;
             align-items: center;
@@ -483,6 +491,117 @@
             color: #fff;
             font-size: 12px;
             text-align: center;
+            cursor: text;
+        }
+
+        .address-bar:focus {
+            outline: none;
+            border-color: #ff8800;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .search-bar {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 6px 12px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #ff8800;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .start-menu {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            z-index: 9999;
+            min-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .start-menu.hidden {
+            display: none;
+        }
+
+        .start-menu-section {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .start-menu-section:last-child {
+            border-bottom: none;
+        }
+
+        .start-menu-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .disk-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 6px;
+        }
+
+        .disk-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .disk-icon {
+            font-size: 18px;
+        }
+
+        .disk-info {
+            flex: 1;
+        }
+
+        .disk-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .disk-usage {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2px;
+        }
+
+        .disk-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .disk-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff8800, #ffaa00);
+            border-radius: 2px;
         }
 
         .browser-content {
@@ -590,32 +709,32 @@
         <div class="main-area">
             <!-- Desktop Icons -->
             <div class="desktop-icons">
-                <div class="desktop-icon" ondblclick="openWindow('html-lesson')">
-                    <div class="icon-image">🏷️</div>
+                <div class="desktop-icon" data-app="html" ondblclick="openWindow('html-lesson')" oncontextmenu="customizeIcon(event, 'html'); return false;">
+                    <div class="icon-image" style="cursor: pointer; border-radius: 4px; padding: 4px;" title="Right-click to change icon">🏷️</div>
                     <div class="icon-label">HTML Lesson</div>
                 </div>
-                <div class="desktop-icon" ondblclick="openWindow('css-lesson')">
-                    <div class="icon-image">🎨</div>
+                <div class="desktop-icon" data-app="css" ondblclick="openWindow('css-lesson')" oncontextmenu="customizeIcon(event, 'css'); return false;">
+                    <div class="icon-image" style="cursor: pointer; border-radius: 4px; padding: 4px;" title="Right-click to change icon">🎨</div>
                     <div class="icon-label">CSS Lesson</div>
                 </div>
                 <div class="desktop-icon" ondblclick="openWindow('about')">
                     <div class="icon-image">ℹ️</div>
                     <div class="icon-label">About</div>
                 </div>
-                <div class="desktop-icon" ondblclick="openWindow('editor')">
-                    <div class="icon-image">📝</div>
+                <div class="desktop-icon" data-app="notes" ondblclick="openWindow('editor')" oncontextmenu="customizeIcon(event, 'notes'); return false;">
+                    <div class="icon-image" style="cursor: pointer; border-radius: 4px; padding: 4px;" title="Right-click to change icon">📝</div>
                     <div class="icon-label">Notes</div>
                 </div>
-                <div class="desktop-icon" ondblclick="openWindow('browser')">
-                    <div class="icon-image">🌐</div>
+                <div class="desktop-icon" data-app="browser" ondblclick="openWindow('browser')" oncontextmenu="customizeIcon(event, 'browser'); return false;">
+                    <div class="icon-image" style="cursor: pointer; border-radius: 4px; padding: 4px;" title="Right-click to change icon">🌐</div>
                     <div class="icon-label">Microsoft Edge</div>
                 </div>
-                <div class="desktop-icon" ondblclick="openWindow('ai')">
-                    <div class="icon-image">✨</div>
+                <div class="desktop-icon" data-app="ai" ondblclick="openWindow('ai')" oncontextmenu="customizeIcon(event, 'ai'); return false;">
+                    <div class="icon-image" style="cursor: pointer; border-radius: 4px; padding: 4px;" title="Right-click to change icon">✨</div>
                     <div class="icon-label">AI Assistant</div>
                 </div>
-                <div class="desktop-icon" ondblclick="openWindow('vscode')">
-                    <div class="icon-image">⚙️</div>
+                <div class="desktop-icon" data-app="vscode" ondblclick="openWindow('vscode')" oncontextmenu="customizeIcon(event, 'vscode'); return false;">
+                    <div class="icon-image" style="cursor: pointer; border-radius: 4px; padding: 4px;" title="Right-click to change icon">⚙️</div>
                     <div class="icon-label">VS Code</div>
                 </div>
             </div>
@@ -643,13 +762,13 @@
 
         <!-- Taskbar -->
         <div class="taskbar">
-            <button class="start-btn" title="Start" style="font-size: 16px; font-weight: bold;" onclick="openStartMenu()">❖</button>
-            <button class="taskbar-app" title="HTML" onclick="openWindow('html-lesson')">🏷️</button>
-            <button class="taskbar-app" title="CSS" onclick="openWindow('css-lesson')">🎨</button>
-            <button class="taskbar-app" title="Notes" onclick="openWindow('editor')">📝</button>
-            <button class="taskbar-app" title="Browser" onclick="openWindow('browser')">🌐</button>
-            <button class="taskbar-app" title="VS Code" onclick="openWindow('vscode')">⚙️</button>
-            <button class="taskbar-app" title="AI Assistant" onclick="openWindow('ai')">✨</button>
+            <button class="start-btn" title="Start" style="font-size: 16px; font-weight: bold;" onclick="toggleStartMenu()">❖</button>
+            <button class="taskbar-app" data-app="html" title="HTML" onclick="openWindow('html-lesson')" oncontextmenu="customizeIcon(event, 'html'); return false;">🏷️</button>
+            <button class="taskbar-app" data-app="css" title="CSS" onclick="openWindow('css-lesson')" oncontextmenu="customizeIcon(event, 'css'); return false;">🎨</button>
+            <button class="taskbar-app" data-app="notes" title="Notes" onclick="openWindow('editor')" oncontextmenu="customizeIcon(event, 'notes'); return false;">📝</button>
+            <button class="taskbar-app" data-app="browser" title="Browser" onclick="openWindow('browser')" oncontextmenu="customizeIcon(event, 'browser'); return false;">🌐</button>
+            <button class="taskbar-app" data-app="vscode" title="VS Code" onclick="openWindow('vscode')" oncontextmenu="customizeIcon(event, 'vscode'); return false;">⚙️</button>
+            <button class="taskbar-app" data-app="ai" title="AI Assistant" onclick="openWindow('ai')" oncontextmenu="customizeIcon(event, 'ai'); return false;">✨</button>
             <div style="width: 1px; height: 30px; background: rgba(255, 255, 255, 0.1);"></div>
             <button class="system-icon" title="Volume">🔊</button>
             <button class="system-icon" title="Network">📡</button>
@@ -657,6 +776,14 @@
             <div class="clock-display">
                 <div class="time" id="time">22:48:04</div>
                 <div class="date" id="date">2025/11/19</div>
+            </div>
+        </div>
+
+        <!-- Start Menu -->
+        <div id="start-menu" class="start-menu hidden">
+            <div class="start-menu-section">
+                <div class="start-menu-title">💾 Disk Partitions</div>
+                <div id="disk-list"></div>
             </div>
         </div>
     </div>
@@ -775,45 +902,63 @@
                 content: `
                     <div style="display: flex; height: 100%; flex-direction: column; gap: 12px;">
                         <div style="display: flex; gap: 12px; flex: 1; min-height: 0;">
-                            <div style="flex: 1; background: rgba(0, 0, 0, 0.3); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px; overflow-y: auto;">
-                                <h3 style="margin-bottom: 10px;">📄 Sample Code</h3>
-                                <div class="code-block" style="border-left: 3px solid #569cd6;">
-&lt;!DOCTYPE html&gt;
+                            <div style="flex: 1; background: rgba(0, 0, 0, 0.3); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px; overflow-y: auto; display: flex; flex-direction: column;">
+                                <h3 style="margin-bottom: 10px;">📄 HTML/CSS Editor</h3>
+                                <textarea id="code-editor" style="flex: 1; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; color: #61dafb; padding: 10px; font-family: 'Courier New', monospace; font-size: 12px; resize: none;">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
     &lt;title&gt;My Page&lt;/title&gt;
     &lt;style&gt;
         body {
             font-family: Arial;
-            background: #f0f0f0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
         }
         .container {
-            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
             background: white;
-            border-radius: 8px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #764ba2;
         }
     &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
     &lt;div class="container"&gt;
-        &lt;h1&gt;Hello World!&lt;/h1&gt;
-        &lt;p&gt;This is a sample page.&lt;/p&gt;
+        &lt;h1&gt;Welcome to VS Code Editor! 👨‍💻&lt;/h1&gt;
+        &lt;p&gt;Edit the code on the left and see the result on the right in real-time!&lt;/p&gt;
+        &lt;button&gt;Click Me!&lt;/button&gt;
     &lt;/div&gt;
 &lt;/body&gt;
-&lt;/html&gt;
-                                </div>
+&lt;/html&gt;</textarea>
                             </div>
-                            <div style="flex: 1; background: rgba(0, 0, 0, 0.2); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px; overflow-y: auto;">
-                                <h3 style="margin-bottom: 10px;">👁️ Result</h3>
-                                <div style="background: white; color: #333; padding: 12px; border-radius: 6px; font-family: Arial;">
-                                    <h1 style="color: #333; font-size: 24px; margin: 0 0 10px 0;">Hello World!</h1>
-                                    <p style="color: #666; margin: 0;">This is a sample page.</p>
-                                </div>
+                            <div style="flex: 1; background: rgba(0, 0, 0, 0.2); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px; overflow-y: auto; display: flex; flex-direction: column;">
+                                <h3 style="margin-bottom: 10px;">👁️ Live Preview</h3>
+                                <iframe id="preview-frame" style="flex: 1; border: none; border-radius: 6px; background: white; min-height: 300px;"></iframe>
                             </div>
                         </div>
-                        <div style="background: rgba(0, 0, 0, 0.3); border-radius: 6px; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                            <p style="font-size: 12px; color: #b0b0b0; margin: 0;">💡 Tip: Edit the HTML code on the left to see the result update in real-time. This is a basic editor demonstration.</p>
-                        </div>
+                        <button onclick="updatePreview()" style="background: #00a4ef; color: #000; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 10px;">🔄 Update Preview</button>
                     </div>
                 `
             },
@@ -823,39 +968,37 @@
                 content: `
                     <div class="browser-window">
                         <div class="browser-header">
-                            <button class="browser-btn">←</button>
-                            <button class="browser-btn">→</button>
-                            <button class="browser-btn">↻</button>
-                            <div class="address-bar">https://www.example.com</div>
-                            <button class="browser-btn">☆</button>
+                            <button class="browser-btn" onclick="browserBack()">←</button>
+                            <button class="browser-btn" onclick="browserForward()">→</button>
+                            <button class="browser-btn" onclick="browserReload()">↻</button>
+                            <input type="text" id="address-bar" class="address-bar" value="https://example.com" onkeypress="handleBrowserNav(event)" placeholder="Enter URL...">
+                            <button class="browser-btn" onclick="navigateToURL()">⏎</button>
                         </div>
-                        <div class="browser-content">
-                            <div class="browser-page active">
-                                <h1>Welcome to Microsoft Edge</h1>
-                                <p>This is a mock browser interface showing how your web pages would appear. You can navigate between different websites and view their content here.</p>
-                                <h2 style="color: #00a4ef; margin-top: 16px;">Popular Sites</h2>
-                                <ul style="margin-left: 20px;">
-                                    <li>Google - www.google.com</li>
-                                    <li>Wikipedia - www.wikipedia.org</li>
-                                    <li>GitHub - www.github.com</li>
-                                    <li>Stack Overflow - www.stackoverflow.com</li>
-                                </ul>
-                                <p style="margin-top: 16px; font-size: 12px; color: #888;">This is a simulated browser for educational purposes.</p>
+                        <div class="browser-content" id="browser-content">
+                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 20px; padding: 20px;">
+                                <div style="font-size: 48px;">🌐</div>
+                                <p style="color: #b0b0b0; text-align: center; max-width: 400px;">
+                                    Enter a website URL above (e.g., https://example.com) and press Enter to load it.
+                                </p>
+                                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; text-align: center; font-size: 12px; color: #888;">
+                                    <p><strong>Popular Sites:</strong></p>
+                                    <p>example.com • github.com • wikipedia.org • stackoverflow.com</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 `
             },
             'ai': {
-                title: 'AI Assistant',
+                title: 'Claude - AI Assistant',
                 icon: '✨',
                 content: `
                     <div class="ai-chat">
                         <div class="chat-messages" id="chat-messages">
-                            <div class="chat-message ai">👋 Hello! I'm your AI Assistant. How can I help you learn today? Feel free to ask me anything about HTML, CSS, or web development.</div>
+                            <div class="chat-message ai">👋 Hi, I'm Claude. I'm an AI assistant made by Anthropic. I'm here to help you with coding, learning, and answering questions about HTML, CSS, JavaScript, and web development. What can I help you with?</div>
                         </div>
                         <div class="chat-input-area">
-                            <input type="text" id="ai-input" placeholder="Ask me something..." onkeypress="handleAIInput(event)">
+                            <input type="text" id="ai-input" placeholder="Ask me anything..." onkeypress="handleAIInput(event)">
                             <button onclick="sendAIMessage()">Send</button>
                         </div>
                     </div>
@@ -975,19 +1118,39 @@
                 userMsg.textContent = message;
                 messagesContainer.appendChild(userMsg);
                 
-                // Add AI response
-                const responses = [
-                    '🤖 That\'s a great question! Let me explain...',
-                    '✨ Interesting! Here\'s what I know about that...',
-                    '💡 Good point! This is related to web development...',
-                    '🎯 That\'s important for learning. Let me help you understand...',
-                    '📚 Great question! This concept is fundamental to...'
-                ];
+                // Generate contextual AI response based on user input
+                const userLower = message.toLowerCase();
+                let response = '🤖 I\'m not sure about that. Can you rephrase your question?';
+                
+                if (userLower.includes('html') || userLower.includes('tag') || userLower.includes('markup')) {
+                    response = '🏷️ HTML is the foundation of web pages! It uses tags like <div>, <p>, <h1> to structure content. Check out the HTML Lesson on your desktop for more details!';
+                } else if (userLower.includes('css') || userLower.includes('style') || userLower.includes('design')) {
+                    response = '🎨 CSS is used to style HTML elements! You can change colors, fonts, spacing, and layouts. Open the CSS Lesson to learn more about selectors, flexbox, and grid!';
+                } else if (userLower.includes('javascript') || userLower.includes('js') || userLower.includes('interact')) {
+                    response = '⚙️ JavaScript adds interactivity to web pages! It can handle user events, manipulate the DOM, and much more. Great for building dynamic applications!';
+                } else if (userLower.includes('help') || userLower.includes('how')) {
+                    response = '💡 I can help you learn web development! Ask me about HTML, CSS, JavaScript, or any web development topic. I\'m here to assist!';
+                } else if (userLower.includes('hello') || userLower.includes('hi')) {
+                    response = '👋 Hello! Welcome to the AI Assistant. I\'m here to help you with web development questions. What would you like to learn?';
+                } else if (userLower.includes('what') || userLower.includes('explain')) {
+                    response = '📚 Great question! Web development involves three main technologies: HTML (structure), CSS (styling), and JavaScript (interactivity). Together they create amazing websites!';
+                } else if (userLower.includes('thanks') || userLower.includes('thank you')) {
+                    response = '😊 You\'re welcome! If you have more questions about web development, feel free to ask anytime!';
+                } else {
+                    const responses = [
+                        '🤖 That\'s an interesting topic! Related to web development?',
+                        '✨ I see! Let me help you understand that better...',
+                        '💡 Good question! This connects to web development concepts...',
+                        '🎯 That\'s important! Here\'s what you should know...',
+                        '📚 Fascinating! Web development is always evolving...'
+                    ];
+                    response = responses[Math.floor(Math.random() * responses.length)];
+                }
                 
                 setTimeout(() => {
                     const aiMsg = document.createElement('div');
                     aiMsg.className = 'chat-message ai';
-                    aiMsg.textContent = responses[Math.floor(Math.random() * responses.length)] + ' For more detailed explanations, check out the lessons on the desktop!';
+                    aiMsg.textContent = response;
                     messagesContainer.appendChild(aiMsg);
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 }, 500);
@@ -1007,14 +1170,264 @@
             alert('🪟 Start Menu - Click on the apps in the taskbar or desktop to get started!');
         }
 
-        document.getElementById('copilot-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
+        // VS Code Editor Functions
+        function updatePreview() {
+            const codeEditor = document.getElementById('code-editor');
+            const previewFrame = document.getElementById('preview-frame');
+            
+            if (codeEditor && previewFrame) {
+                try {
+                    previewFrame.srcdoc = codeEditor.value;
+                } catch(e) {
+                    previewFrame.srcdoc = '<h1>Error loading preview</h1>';
+                }
+            }
+        }
+
+        // Browser Navigation Functions
+        let browserHistory = ['https://example.com'];
+        let currentHistoryIndex = 0;
+
+        function navigateToURL() {
+            const addressBar = document.getElementById('address-bar');
+            const url = addressBar.value.trim();
+            
+            if (!url) return;
+            
+            // Add https:// if not present
+            let fullUrl = url;
+            if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
+                fullUrl = 'https://' + url;
+            }
+            
+            loadWebsite(fullUrl);
+        }
+
+        function handleBrowserNav(event) {
+            if (event.key === 'Enter') {
+                navigateToURL();
+            }
+        }
+
+        function loadWebsite(url) {
+            const browserContent = document.getElementById('browser-content');
+            const addressBar = document.getElementById('address-bar');
+            
+            if (!browserContent) return;
+            
+            addressBar.value = url;
+            
+            // Add to history
+            browserHistory.push(url);
+            currentHistoryIndex = browserHistory.length - 1;
+            
+            // Try to load the website
+            browserContent.innerHTML = `
+                <iframe style="width: 100%; height: 100%; border: none; background: white;" 
+                        src="${url}" 
+                        onload="this.style.opacity='1';" 
+                        onerror="this.parentElement.innerHTML='<div style=\"padding: 20px; text-align: center;\"><h2>⚠️ Could not load website</h2><p>The website may not be accessible or may have CORS restrictions.</p><p>Try: google.com, example.com, or other public websites</p></div>';"
+                        style="opacity: 0; transition: opacity 0.3s;"></iframe>
+            `;
+        }
+
+        function browserBack() {
+            if (currentHistoryIndex > 0) {
+                currentHistoryIndex--;
+                loadWebsite(browserHistory[currentHistoryIndex]);
+            }
+        }
+
+        function browserForward() {
+            if (currentHistoryIndex < browserHistory.length - 1) {
+                currentHistoryIndex++;
+                loadWebsite(browserHistory[currentHistoryIndex]);
+            }
+        }
+
+        function browserReload() {
+            const addressBar = document.getElementById('address-bar');
+            if (addressBar.value) {
+                loadWebsite(addressBar.value);
+            }
+        }
+
+        // Icon Customization
+        function customizeIcon(event, appName) {
+            const newEmoji = prompt(`Enter a new emoji or character for ${appName}:`, '');
+            
+            if (newEmoji && newEmoji.length > 0) {
+                // Get the first character/emoji
+                const firstChar = newEmoji.charAt(0);
+                
+                // Update desktop icon
+                const desktopIcon = document.querySelector(`[data-app="${appName}"] .icon-image`);
+                if (desktopIcon) {
+                    desktopIcon.textContent = firstChar;
+                }
+                
+                // Update taskbar icon
+                const taskbarIcon = document.querySelector(`button[title="${appName}"]`);
+                if (taskbarIcon) {
+                    taskbarIcon.textContent = firstChar;
+                }
+                
+                // Save to localStorage
+                localStorage.setItem(`icon_${appName}`, firstChar);
+            }
+        }
+
+        // Icon Customization
+
+        function populateDiskList() {
+            const diskList = document.getElementById('disk-list');
+            diskList.innerHTML = '';
+            
+            // Simulate disk partitions
+            const disks = [
+                { name: 'C: Drive (System)', total: 500, used: 320, icon: '💾' },
+                { name: 'D: Drive (Data)', total: 1000, used: 650, icon: '📀' },
+                { name: 'E: Drive (External)', total: 2000, used: 1200, icon: '🔌' }
+            ];
+            
+            disks.forEach(disk => {
+                const percentage = (disk.used / disk.total * 100).toFixed(1);
+                const diskEl = document.createElement('div');
+                diskEl.className = 'disk-item';
+                diskEl.innerHTML = `
+                    <div class="disk-icon">${disk.icon}</div>
+                    <div class="disk-info" style="flex: 1;">
+                        <div class="disk-name">${disk.name}</div>
+                        <div class="disk-usage">${disk.used}GB / ${disk.total}GB</div>
+                        <div class="disk-bar">
+                            <div class="disk-bar-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                    <div style="font-size: 11px; color: rgba(255,255,255,0.7);">${percentage}%</div>
+                `;
+                diskList.appendChild(diskEl);
+            });
+        }
+
+        function handleBrowserSearch(event) {
+            if (event.key === 'Enter') {
+                const searchTerm = event.target.value.trim();
+                if (searchTerm) {
+                    performBrowserSearch(searchTerm);
+                }
+            }
+        }
+
+        function performBrowserSearch(query) {
+            const homePage = document.getElementById('browser-page-home');
+            const resultsPage = document.getElementById('browser-page-results');
+            
+            homePage.classList.remove('active');
+            resultsPage.classList.add('active');
+            
+            // Simulate search results
+            const searchResults = generateSearchResults(query);
+            resultsPage.innerHTML = `
+                <h1>🔍 Search Results for "${query}"</h1>
+                <p style="color: #888; font-size: 12px; margin-bottom: 16px;">About 1,234,567 results (0.32 seconds)</p>
+                ${searchResults}
+            `;
+        }
+
+        function generateSearchResults(query) {
+            const queryLower = query.toLowerCase();
+            let results = '';
+            
+            const resultTemplates = {
+                'html': [
+                    { title: 'HTML5 Tutorial - Complete Guide', desc: 'Learn HTML5 from basics to advanced. Master semantic tags, forms, and more.' },
+                    { title: 'MDN Web Docs - HTML', desc: 'The definitive reference for HTML elements and attributes.' },
+                    { title: 'HTML Best Practices', desc: 'Write semantic, accessible, and performant HTML code.' }
+                ],
+                'css': [
+                    { title: 'CSS3 Complete Tutorial', desc: 'Master CSS3 including flexbox, grid, animations, and transitions.' },
+                    { title: 'Modern CSS Techniques', desc: 'Learn responsive design, CSS variables, and advanced selectors.' },
+                    { title: 'CSS-Tricks - Your Guide to CSS', desc: 'Daily articles about CSS, HTML, JavaScript, and web development.' }
+                ],
+                'javascript': [
+                    { title: 'JavaScript Fundamentals', desc: 'Learn variables, functions, objects, and async programming.' },
+                    { title: 'Modern JavaScript ES6+', desc: 'Master arrow functions, promises, async/await, and destructuring.' },
+                    { title: 'JavaScript DOM Manipulation', desc: 'Learn to interact with the DOM and handle user events.' }
+                ],
+                'web development': [
+                    { title: 'Web Development Roadmap', desc: 'Complete path to becoming a professional web developer.' },
+                    { title: 'Frontend vs Backend', desc: 'Understanding the differences and both sides of web development.' },
+                    { title: 'Web Design Principles', desc: 'Create beautiful and user-friendly websites.' }
+                ]
+            };
+            
+            let items = [];
+            for (const key in resultTemplates) {
+                if (queryLower.includes(key)) {
+                    items = resultTemplates[key];
+                    break;
+                }
+            }
+            
+            if (items.length === 0) {
+                items = [
+                    { title: `Results for "${query}"`, desc: 'Many resources available on this topic. Keep learning!' },
+                    { title: 'Learn More Online', desc: 'Explore various educational platforms for detailed tutorials.' },
+                    { title: 'Community Resources', desc: 'Join communities and forums to discuss web development.' }
+                ];
+            }
+            
+            items.forEach((item, index) => {
+                results += `
+                    <div style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <a href="#" style="color: #ff8800; text-decoration: none; font-weight: 500;">${item.title}</a>
+                        <p style="color: #b0b0b0; font-size: 12px; margin-top: 4px;">${item.desc}</p>
+                    </div>
+                `;
+            });
+            
+            return results;
+        }
+
+        function refreshBrowser() {
+            const addressInput = document.getElementById('browser-address');
+            addressInput.value = '';
+            document.getElementById('browser-page-home').classList.add('active');
+            document.getElementById('browser-page-results').classList.remove('active');
+        }
+
+        function historicallyGoBack() {
+            const homePage = document.getElementById('browser-page-home');
+            const resultsPage = document.getElementById('browser-page-results');
+            
+            if (resultsPage.classList.contains('active')) {
+                resultsPage.classList.remove('active');
+                homePage.classList.add('active');
+            }
+        }
+
+        function historicallyGoForward() {
+            // Simple forward navigation (not fully implemented in demo)
+        }
+
+        // Close start menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const startMenu = document.getElementById('start-menu');
+            const startBtn = document.querySelector('.start-btn');
+            
+            if (!startMenu.classList.contains('hidden') && !startMenu.contains(e.target) && !startBtn.contains(e.target)) {
+                startMenu.classList.add('hidden');
             }
         });
 
         setInterval(updateClock, 1000);
         updateClock();
+
+        document.getElementById('copilot-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
     </script>
 </body>
 </html>
